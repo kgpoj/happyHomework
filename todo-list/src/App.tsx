@@ -8,7 +8,7 @@ function App() {
 
     return (
         <div>
-            <TodoList title={'hello'} dataSource={dataSource}/>
+            <TodoList title={'hello'} dataSource={dataSource} onUpdate={setDataSource}/>
         </div>
     );
 }
