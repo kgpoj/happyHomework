@@ -3,7 +3,7 @@ import {getByText, render, screen} from '@testing-library/react';
 import TodoList from "./TodoList";
 import mockTodoData from "../constants/mockTodoData";
 import userEvent from "@testing-library/user-event";
-import {TodoItem} from "../interface/TodoItem";
+import App from "../App";
 
 describe('TodoList', () => {
     it('should render data and checked status correctly', () => {
@@ -20,16 +20,11 @@ describe('TodoList', () => {
     });
 
     it('should change checked status',() => {
-        let dataSource = mockTodoData
-        const setDataSource = (newData: TodoItem[]) => {
-            dataSource = newData
-        }
-        const {rerender} = render(<TodoList title={'hello'} dataSource={dataSource} onUpdate={setDataSource}/>);
+        render(<App/>)
         let checkbox = screen.getAllByRole('checkbox')[0] as HTMLInputElement
         expect(checkbox).not.toBeChecked()
 
         userEvent.click(checkbox)
-        rerender(<TodoList title={'hello'} dataSource={dataSource} onUpdate={setDataSource}/>)
         expect(checkbox).toBeChecked()
     });
 
