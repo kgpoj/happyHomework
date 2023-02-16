@@ -4,7 +4,7 @@ export function readTodo(): TodoItem[] {
     return JSON.parse(sessionStorage.getItem('mockTodoData') as string);
 }
 
-export const updateTodo = (id: number, payload: { status: string }) => {
+export const updateTodo = (id: number, payload: { data?: string, status?: string }) => {
     const data = readTodo()
     const newData = data.map(item => {
         if (item.id === id) {

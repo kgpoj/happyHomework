@@ -8,7 +8,7 @@ import App from "../App";
 const title = "What's next?";
 describe('TodoList', () => {
     it('should render data and checked status correctly', () => {
-        render(<TodoList />)
+        render(<TodoList/>)
         const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[]
 
         expect(screen.getByText(title)).toBeInTheDocument();
@@ -20,7 +20,7 @@ describe('TodoList', () => {
     });
 
     // a test of full scenarios user interaction, but not a proper component unit test
-    it('should change checked status',() => {
+    it('should change checked status', () => {
         render(<App/>)
         const checkbox = screen.getAllByRole('checkbox')[0] as HTMLInputElement
         expect(checkbox).not.toBeChecked()
@@ -34,9 +34,25 @@ describe('TodoList', () => {
         render(<TodoList/>)
         const newTodo = 'new todo';
         expect(screen.queryByText(newTodo)).not.toBeInTheDocument()
+
         const input = screen.getByRole('textbox')
         userEvent.click(input)
         userEvent.keyboard('new todo[Enter]')
         expect(screen.getByText(newTodo)).toBeInTheDocument()
+    });
+
+    it('should change todo by double click', function () {
+        render(<TodoList/>)
+        const existTodo = 'active todo item'
+        const todo = screen.getByText(existTodo);
+        expect(todo).toBeInTheDocument()
+
+        const newTodo = 'active todo item with new text';
+        expect(screen.queryByText(newTodo)).not.toBeInTheDocument()
+
+        userEvent.dblClick(todo)
+        userEvent.keyboard(' with new text[Enter]')
+        expect(screen.getByText(newTodo)).toBeInTheDocument()
+        expect(todo).not.toBeInTheDocument()
     });
 })
