@@ -1,48 +1,39 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TodoItem} from "../interface/TodoItem";
+import mockTodoData from "../constants/mockTodoData";
+import {createTodo, readTodo, updateTodo} from "../api/todoList";
 
-interface Props {
-    title: string,
-    dataSource: TodoItem[],
-    onUpdate: (value: TodoItem[]) => void
-}
 
-function TodoList({title, dataSource, onUpdate}: Props) {
+function TodoList() {
+    const [dataSource, setDataSource] = useState<TodoItem[]>(mockTodoData);
+    const [refresh, setRefresh] = useState(0);
+    useEffect(() => {
+        setDataSource(readTodo())
+    }, [refresh]);
+
     const [newTodo, setNewTodo] = useState('');
     const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            const newTodoItem = {
-                data: newTodo,
-                status: 'active'
-            };
-            onUpdate([...dataSource, newTodoItem]);
+            createTodo(newTodo)
             setNewTodo('');
+            setRefresh(refresh + 1)
         }
     };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewTodo(e.target.value)
     };
-    const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const targetItem = e.target.name;
-        const newTodoItems = dataSource.map(item => {
-            if (item.data === targetItem) {
-                return {
-                    data: item.data,
-                    status: e.target.checked ? 'completed' : 'active'
-                }
-            }
-            return item
-        })
-        onUpdate(newTodoItems);
+    const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+        updateTodo(id, {status: e.target.checked ? 'completed' : 'active'})
+        setRefresh(refresh + 1)
     };
     return (
         <div>
-            <h3>{title}</h3>
+            <h3>{"What's next?"}</h3>
             <ul>
-                {dataSource.map(({data, status}, index) =>
-                    <li key={index}>
+                {dataSource.map(({data, status, id},) =>
+                    <li key={id}>
                         <input type={"checkbox"} name={data} checked={status === 'completed'}
-                               onChange={handleCheckedChange}/>
+                               onChange={(e) => handleCheckedChange(e, id)}/>
                         <label htmlFor={data}>{data}</label>
                     </li>
                 )}
