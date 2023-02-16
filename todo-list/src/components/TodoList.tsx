@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {TodoItem} from "../interface/TodoItem";
 
 interface Props {
@@ -8,6 +8,20 @@ interface Props {
 }
 
 function TodoList({title, dataSource, onUpdate}: Props) {
+    const [newTodo, setNewTodo] = useState('');
+    const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            const newTodoItem = {
+                data: newTodo,
+                status: 'active'
+            };
+            onUpdate([...dataSource, newTodoItem]);
+            setNewTodo('');
+        }
+    };
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewTodo(e.target.value)
+    };
     const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const targetItem = e.target.name;
         const newTodoItems = dataSource.map(item => {
@@ -33,6 +47,8 @@ function TodoList({title, dataSource, onUpdate}: Props) {
                     </li>
                 )}
             </ul>
+            <input type={"text"} value={newTodo} placeholder={'Enter new Todo item'} onChange={handleInputChange}
+                   onKeyUp={handleKeyUp}/>
         </div>
     );
 }
