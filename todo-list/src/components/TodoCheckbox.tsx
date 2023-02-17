@@ -3,10 +3,10 @@ import {updateTodo} from "../api/todoList";
 
 interface Props {
     refreshPage: () => void,
-    checkId: number,
+    todoId: number,
     checked: boolean
 }
-function TodoCheckbox({refreshPage, checkId, checked}: Props) {
+function TodoCheckbox({refreshPage, todoId, checked}: Props) {
     const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
         updateTodo(id, {status: e.target.checked ? 'completed' : 'active'})
         refreshPage();
@@ -15,7 +15,7 @@ function TodoCheckbox({refreshPage, checkId, checked}: Props) {
         <input
             type={"checkbox"}
             checked={checked}
-            onChange={(e) => handleCheckedChange(e, checkId)}
+            onChange={(e) => handleCheckedChange(e, todoId)}
         />
     );
 }

@@ -36,7 +36,7 @@ function TodoList() {
             <ul>
                 {dataSource.map(({data, status, id},) =>
                     <li key={id}>
-                        <TodoCheckbox refreshPage={refreshPage} checked={status === 'completed'} checkId={id}/>
+                        <TodoCheckbox refreshPage={refreshPage} checked={status === 'completed'} todoId={id}/>
                         {onEditing[id]
                             ?
                             <EditTodoInput
