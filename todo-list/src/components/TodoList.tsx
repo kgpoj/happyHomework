@@ -3,6 +3,7 @@ import {TodoItem} from "../interface/TodoItem";
 import mockTodoData from "../constants/mockTodoData";
 import {readTodo, updateTodo} from "../api/todoList";
 import NewTodoInput from "./NewTodoInput";
+import EditTodoInput from "./EditTodoInput";
 
 function initState(dataSource: TodoItem[]): { [index: number]: boolean } {
     return dataSource.reduce((total, cur) => ({...total, [cur.id]: false}), {});
@@ -18,6 +19,7 @@ function TodoList() {
     }, [refresh]);
 
     function refreshPage() {
+        setOnEditing(initState(dataSource))
         setRefresh(refresh + 1)
     }
 
@@ -25,29 +27,10 @@ function TodoList() {
         updateTodo(id, {status: e.target.checked ? 'completed' : 'active'})
         refreshPage();
     }
-    const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEditingTodo(e.target.value)
-    };
 
     const handleLabelDoubleClick = (id: number, data: string) => {
         setOnEditing({...initState(dataSource), [id]: true})
         setEditingTodo(data)
-    };
-
-    function saveEditResult(id: number) {
-        updateTodo(id, {data: editingTodo})
-        refreshPage();
-        setOnEditing({...initState(dataSource), [id]: false})
-    }
-
-    const handleEditKeyUp = (e: React.KeyboardEvent<HTMLInputElement>, id: number) => {
-        if (e.key === 'Enter') {
-            saveEditResult(id);
-        }
-    };
-
-    const handleEditBlur = (id: number) => {
-        saveEditResult(id);
     };
 
     return (
@@ -63,13 +46,12 @@ function TodoList() {
                             onChange={(e) => handleCheckedChange(e, id)}
                         />
                         {onEditing[id]
-                            ? <input
-                                type={"text"}
+                            ?
+                            <EditTodoInput
                                 value={editingTodo}
-                                onKeyUp={(e) => handleEditKeyUp(e, id)}
-                                onChange={handleEditChange}
-                                autoFocus
-                                onBlur={() => handleEditBlur(id)}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditingTodo(e.target.value)}
+                                editId={id}
+                                refreshPage={refreshPage}
                             />
                             :
                             <label
