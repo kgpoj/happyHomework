@@ -1,11 +1,17 @@
 import {TodoItem} from "../interface/TodoItem";
 
+function readAllTodo() {
+    const todoData: TodoItem[] = JSON.parse(sessionStorage.getItem('mockTodoData') as string);
+    return todoData;
+}
+
 export function readTodo(): TodoItem[] {
-    return JSON.parse(sessionStorage.getItem('mockTodoData') as string);
+    const todoData = readAllTodo();
+    return todoData.filter(item => !item.deleted);
 }
 
 export const updateTodo = (id: number, payload: { data?: string, status?: string }) => {
-    const data = readTodo()
+    const data = readAllTodo()
     const newData = data.map(item => {
         if (item.id === id) {
             return {...item, ...payload}
@@ -15,7 +21,7 @@ export const updateTodo = (id: number, payload: { data?: string, status?: string
     sessionStorage.setItem('mockTodoData', JSON.stringify(newData))
 };
 export const createTodo = (payload: string) => {
-    const data = readTodo()
+    const data = readAllTodo()
     const newTodo = {
         data: payload,
         status: 'active',
@@ -25,7 +31,12 @@ export const createTodo = (payload: string) => {
     sessionStorage.setItem('mockTodoData', JSON.stringify([...data, newTodo]))
 };
 export const deleteTodo = (id: number) => {
-    const data = readTodo()
-    const newData = data.filter(item => item.id !== id)
+    const data = readAllTodo()
+    const newData = data.map(item => {
+        if (item.id === id) {
+            return {...item, deleted: true}
+        }
+        return item
+    })
     sessionStorage.setItem('mockTodoData', JSON.stringify(newData))
 };
