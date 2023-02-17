@@ -78,4 +78,15 @@ describe('TodoList', () => {
         userEvent.click(deleteButton)
         expect(todo).not.toBeInTheDocument()
     });
+
+    it('should show bottom bar with the correct number of left todos', function () {
+        render(<TodoList/>)
+        expect(screen.getByText('2 items left')).toBeInTheDocument()
+
+        const input = screen.getByRole('textbox')
+        userEvent.click(input)
+        userEvent.keyboard('new todo[Enter]')
+        expect(screen.queryByText('2 items left')).not.toBeInTheDocument()
+        expect(screen.getByText('3 items left')).toBeInTheDocument()
+    });
 })

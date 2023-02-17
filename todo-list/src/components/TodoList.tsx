@@ -6,10 +6,19 @@ import NewTodoInput from "./NewTodoInput";
 import EditTodoInput from "./EditTodoInput";
 import TodoCheckbox from "./TodoCheckbox";
 import TodoDetail from "./TodoDetail";
+import styled from "styled-components";
+import BottomBar from "./BottomBar";
 
 function initState(dataSource: TodoItem[]): { [index: number]: boolean } {
     return dataSource.reduce((total, cur) => ({...total, [cur.id]: false}), {});
 }
+
+const StyledWrapper = styled.div`
+  width: 500px;
+  margin: 10px auto;
+  border: 1px solid rgba(5, 5, 5, 0.06);
+  box-shadow: 0 3px 6px 0 rgb(0 0 0 / 12%);
+`;
 
 function TodoList() {
     const [dataSource, setDataSource] = useState<TodoItem[]>(mockTodoData);
@@ -31,7 +40,7 @@ function TodoList() {
     };
 
     return (
-        <div>
+        <StyledWrapper>
             <h3>{"What's next?"}</h3>
             <ul>
                 {dataSource.map(({data, status, id},) =>
@@ -58,7 +67,8 @@ function TodoList() {
                 )}
             </ul>
             <NewTodoInput refreshPage={refreshPage}/>
-        </div>
+            <BottomBar todoNum={dataSource.length}/>
+        </StyledWrapper>
     );
 }
 
