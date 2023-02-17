@@ -3,12 +3,12 @@ import {updateTodo} from "../api/todoList";
 
 interface Props {
     refreshPage: () => void,
-    editId: number,
+    todoId: number,
     value: string,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-function EditTodoInput({refreshPage, editId, value, onChange}: Props) {
+function EditTodoInput({refreshPage, todoId, value, onChange}: Props) {
     function saveEditResult(id: number) {
         updateTodo(id, {data: value})
         refreshPage();
@@ -27,10 +27,10 @@ function EditTodoInput({refreshPage, editId, value, onChange}: Props) {
         <input
             type={"text"}
             value={value}
-            onKeyUp={(e) => handleEditKeyUp(e, editId)}
+            onKeyUp={(e) => handleEditKeyUp(e, todoId)}
             onChange={onChange}
             autoFocus
-            onBlur={() => handleEditBlur(editId)}
+            onBlur={() => handleEditBlur(todoId)}
         />
     );
 }
