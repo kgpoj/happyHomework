@@ -7,6 +7,9 @@ import App from "../App";
 
 const title = "What's next?";
 describe('TodoList', () => {
+    beforeEach(() => {
+        sessionStorage.setItem('mockTodoData', JSON.stringify(mockTodoData))
+    })
     it('should render data and checked status correctly', () => {
         render(<TodoList/>)
         const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[]
