@@ -5,10 +5,11 @@ interface TodoDetailProps {
     todoId: number,
     onDoubleClick: () => void,
     data: string,
-    refreshPage: () => void
+    refreshPage: () => void,
+    completed: boolean
 }
 
-function TodoDetail({ todoId, onDoubleClick, data, refreshPage }: TodoDetailProps) {
+function TodoDetail({ todoId, onDoubleClick, data, refreshPage, completed }: TodoDetailProps) {
     const [onHovering, setOnHovering] = useState(false);
     const handleDelete = (id: number) => {
         deleteTodo(id)
@@ -20,7 +21,7 @@ function TodoDetail({ todoId, onDoubleClick, data, refreshPage }: TodoDetailProp
             onMouseLeave={() => setOnHovering(false)}
         >
             <span onDoubleClick={onDoubleClick}>
-                {data}
+                {completed ? <del>{data}</del> : data}
             </span>
             {onHovering && <button onClick={() => handleDelete(todoId)}>x</button>}
         </span>

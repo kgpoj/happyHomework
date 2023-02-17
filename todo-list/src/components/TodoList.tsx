@@ -47,6 +47,7 @@ function TodoList() {
                             />
                             :
                             <TodoDetail
+                                completed={status === 'completed'}
                                 todoId={id}
                                 onDoubleClick={() => handleDetailDoubleClick(id, data)}
                                 data={data}
