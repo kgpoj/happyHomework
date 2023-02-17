@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {TodoItem} from "../interface/TodoItem";
 import mockTodoData from "../constants/mockTodoData";
-import {createTodo, readTodo, updateTodo} from "../api/todoList";
+import {readTodo, updateTodo} from "../api/todoList";
+import NewTodoInput from "./NewTodoInput";
 
 function initState(dataSource: TodoItem[]): { [index: number]: boolean } {
     return dataSource.reduce((total, cur) => ({...total, [cur.id]: false}), {});
@@ -10,26 +11,19 @@ function initState(dataSource: TodoItem[]): { [index: number]: boolean } {
 function TodoList() {
     const [dataSource, setDataSource] = useState<TodoItem[]>(mockTodoData);
     const [refresh, setRefresh] = useState(0);
-    const [newTodo, setNewTodo] = useState('');
     const [onEditing, setOnEditing] = useState(initState(dataSource));
     const [editingTodo, setEditingTodo] = useState('');
     useEffect(() => {
         setDataSource(readTodo())
     }, [refresh]);
 
-    const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            createTodo(newTodo)
-            setNewTodo('');
-            setRefresh(refresh + 1)
-        }
-    };
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewTodo(e.target.value)
-    };
+    function refreshPage() {
+        setRefresh(refresh + 1)
+    }
+
     const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
         updateTodo(id, {status: e.target.checked ? 'completed' : 'active'})
-        setRefresh(refresh + 1)
+        refreshPage();
     }
     const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEditingTodo(e.target.value)
@@ -42,7 +36,7 @@ function TodoList() {
 
     function saveEditResult(id: number) {
         updateTodo(id, {data: editingTodo})
-        setRefresh(refresh + 1)
+        refreshPage();
         setOnEditing({...initState(dataSource), [id]: false})
     }
 
@@ -88,13 +82,7 @@ function TodoList() {
                     </li>
                 )}
             </ul>
-            <input
-                type={"text"}
-                value={newTodo}
-                placeholder={'Enter new Todo item'}
-                onChange={handleInputChange}
-                onKeyUp={handleKeyUp}
-            />
+            <NewTodoInput refreshPage={refreshPage}/>
         </div>
     );
 }
