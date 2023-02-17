@@ -24,3 +24,8 @@ export const createTodo = (payload: string) => {
     }
     sessionStorage.setItem('mockTodoData', JSON.stringify([...data, newTodo]))
 };
+export const deleteTodo = (id: number) => {
+    const data = readTodo()
+    const newData = data.filter(item => item.id !== id)
+    sessionStorage.setItem('mockTodoData', JSON.stringify(newData))
+};

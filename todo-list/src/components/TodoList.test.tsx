@@ -55,4 +55,24 @@ describe('TodoList', () => {
         expect(screen.getByText(newTodo)).toBeInTheDocument()
         expect(todo).not.toBeInTheDocument()
     });
+
+    it('should delete todo', function () {
+        render(<TodoList/>)
+        const existTodo = 'active todo item'
+        const todo = screen.getByText(existTodo);
+        expect(todo).toBeInTheDocument()
+
+        let deleteButton = screen.queryByRole('button', {
+            name: /x/i
+        })
+        expect(deleteButton).not.toBeInTheDocument()
+        userEvent.hover(todo)
+        deleteButton = screen.getByRole('button', {
+            name: /x/i
+        })
+        expect(deleteButton).toBeInTheDocument()
+
+        userEvent.click(deleteButton)
+        expect(todo).not.toBeInTheDocument()
+    });
 })
