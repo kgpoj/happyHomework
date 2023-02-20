@@ -89,4 +89,34 @@ describe('TodoList', () => {
         expect(screen.queryByText('2 items left')).not.toBeInTheDocument()
         expect(screen.getByText('3 items left')).toBeInTheDocument()
     });
+
+    it('should filter correctly', function () {
+        render(<TodoList/>)
+        const allButton = screen.getByRole('radio', {
+            name: /all/i
+        })
+        const activeButton = screen.getByRole('radio', {
+            name: /active/i
+        })
+        const completedButton = screen.getByRole('radio', {
+            name: /completed/i
+        })
+        expect(allButton).toBeInTheDocument()
+        expect(activeButton).toBeInTheDocument()
+        expect(completedButton).toBeInTheDocument()
+        expect(screen.getByText('active todo item')).toBeInTheDocument()
+        expect(screen.getByText('completed todo item')).toBeInTheDocument()
+
+        userEvent.click(activeButton)
+        expect(screen.getByText('active todo item')).toBeInTheDocument()
+        expect(screen.queryByText('completed todo item')).not.toBeInTheDocument()
+
+        userEvent.click(completedButton)
+        expect(screen.queryByText('active todo item')).not.toBeInTheDocument()
+        expect(screen.getByText('completed todo item')).toBeInTheDocument()
+
+        userEvent.click(allButton)
+        expect(screen.getByText('active todo item')).toBeInTheDocument()
+        expect(screen.getByText('completed todo item')).toBeInTheDocument()
+    });
 })

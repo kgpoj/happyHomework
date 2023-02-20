@@ -25,6 +25,7 @@ function TodoList() {
     const [refresh, setRefresh] = useState(0);
     const [onEditing, setOnEditing] = useState(initState(dataSource));
     const [editingTodo, setEditingTodo] = useState('');
+    const [filterOption, setFilterOption] = useState('All');
     useEffect(() => {
         setDataSource(readTodo())
     }, [refresh]);
@@ -39,11 +40,21 @@ function TodoList() {
         setEditingTodo(data)
     };
 
+    function filtered(dataSource: TodoItem[]): TodoItem[] {
+        if (filterOption === 'All') {
+            return dataSource
+        } else if (filterOption === 'Active') {
+            return dataSource.filter(item => item.status === 'active')
+        } else {
+            return dataSource.filter(item => item.status === 'completed')
+        }
+    }
+
     return (
         <StyledWrapper>
             <h3>{"What's next?"}</h3>
             <ul>
-                {dataSource.map(({data, status, id},) =>
+                {filtered(dataSource).map(({data, status, id},) =>
                     <li key={id}>
                         <TodoCheckbox refreshPage={refreshPage} checked={status === 'completed'} todoId={id}/>
                         {onEditing[id]
@@ -67,7 +78,7 @@ function TodoList() {
                 )}
             </ul>
             <NewTodoInput refreshPage={refreshPage}/>
-            <BottomBar todoNum={dataSource.length}/>
+            <BottomBar todoNum={dataSource.length} onFilter={setFilterOption}/>
         </StyledWrapper>
     );
 }

@@ -7,15 +7,19 @@ const StyledWrapper = styled.div`
   padding: 10px;
 `
 interface BottomBarProps {
-    todoNum: number
+    todoNum: number,
+    onFilter: (value: (((prevState: string) => string) | string)) => void
 }
 
-function BottomBar({todoNum}: BottomBarProps) {
+function BottomBar({ todoNum, onFilter }: BottomBarProps) {
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onFilter(e.target.value)
+    };
     return (
         <StyledWrapper>
             <div>{todoNum} items left</div>
-            <div>
-                <input type="radio" id="All" name="todoFilter" value="All"/>
+            <div onChange={handleOnChange}>
+                <input type="radio" id="All" name="todoFilter" value="All" defaultChecked/>
                 <label htmlFor="All">All</label>
                 <input type="radio" id="Active" name="todoFilter" value="Active"/>
                 <label htmlFor="Active">Active</label>
