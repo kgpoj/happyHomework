@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react';
+import {render, screen, waitFor} from '@testing-library/react';
 import TodoList from "./TodoList";
 import mockTodoData from "../constants/mockTodoData";
 import userEvent from "@testing-library/user-event";
@@ -131,5 +131,14 @@ describe('TodoList', () => {
 
         userEvent.click(clearCompletedButton)
         expect(screen.queryByText('completed todo item')).not.toBeInTheDocument()
+    });
+
+    it('should check new todo validity', function () {
+        render(<TodoList/>)
+        const input = screen.getByRole('textbox')
+        expect(input).toBeInvalid()
+        userEvent.click(input)
+        userEvent.keyboard('new todo')
+        expect(input).toBeValid()
     });
 })
