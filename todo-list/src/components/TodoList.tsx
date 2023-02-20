@@ -78,7 +78,7 @@ function TodoList() {
                 )}
             </ul>
             <NewTodoInput refreshPage={refreshPage}/>
-            <BottomBar todoNum={dataSource.length} onFilter={setFilterOption}/>
+            <BottomBar todoNum={dataSource.length} onFilter={setFilterOption} refreshPage={refreshPage}/>
         </StyledWrapper>
     );
 }

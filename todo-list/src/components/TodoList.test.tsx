@@ -119,4 +119,17 @@ describe('TodoList', () => {
         expect(screen.getByText('active todo item')).toBeInTheDocument()
         expect(screen.getByText('completed todo item')).toBeInTheDocument()
     });
+
+    it('should clear all completed', function () {
+        render(<TodoList/>)
+        const clearCompletedButton = screen.getByRole('button', {
+            name: /clear completed/i
+        })
+        expect(clearCompletedButton).toBeInTheDocument()
+        expect(screen.getByText('active todo item')).toBeInTheDocument()
+        expect(screen.getByText('completed todo item')).toBeInTheDocument()
+
+        userEvent.click(clearCompletedButton)
+        expect(screen.queryByText('completed todo item')).not.toBeInTheDocument()
+    });
 })

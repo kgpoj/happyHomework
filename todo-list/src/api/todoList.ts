@@ -40,3 +40,14 @@ export const deleteTodo = (id: number) => {
     })
     sessionStorage.setItem('mockTodoData', JSON.stringify(newData))
 };
+
+export const deleteCompleted = () => {
+    const data = readAllTodo()
+    const newData = data.map(item => {
+        if (item.status === 'completed') {
+            return {...item, deleted: true}
+        }
+        return item
+    })
+    sessionStorage.setItem('mockTodoData', JSON.stringify(newData))
+};

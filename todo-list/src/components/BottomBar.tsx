@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import {deleteCompleted} from "../api/todoList";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -8,12 +9,17 @@ const StyledWrapper = styled.div`
 `
 interface BottomBarProps {
     todoNum: number,
-    onFilter: (value: (((prevState: string) => string) | string)) => void
+    onFilter: (value: (((prevState: string) => string) | string)) => void,
+    refreshPage: () => void
 }
 
-function BottomBar({ todoNum, onFilter }: BottomBarProps) {
+function BottomBar({ todoNum, onFilter, refreshPage }: BottomBarProps) {
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onFilter(e.target.value)
+    };
+    const handleOnClick = () => {
+        deleteCompleted()
+        refreshPage()
     };
     return (
         <StyledWrapper>
@@ -26,7 +32,7 @@ function BottomBar({ todoNum, onFilter }: BottomBarProps) {
                 <input type="radio" id="Completed" name="todoFilter" value="Completed"/>
                 <label htmlFor="Completed">Completed</label>
             </div>
-            <button>Clear Completed</button>
+            <button onClick={handleOnClick}>Clear Completed</button>
         </StyledWrapper>
     );
 }
