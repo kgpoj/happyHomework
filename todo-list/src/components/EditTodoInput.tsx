@@ -1,6 +1,6 @@
 import React from 'react';
 import {updateTodo} from "../api/todoList";
-import {checkInputValidation, clearValidation} from "../util";
+import Input from "./Input";
 
 interface Props {
     refreshPage: () => void,
@@ -15,27 +15,25 @@ function EditTodoInput({refreshPage, todoId, value, onChange}: Props) {
         refreshPage();
     }
 
-    const handleEditKeyUp = (e: React.KeyboardEvent<HTMLInputElement>, id: number) => {
-        clearValidation(e.currentTarget)
-        if (e.key === 'Enter' && checkInputValidation(e.currentTarget)) {
-            saveEditResult(id);
-        }
+    const handleBlur = () => {
+        saveEditResult(todoId);
     };
-
-    const handleEditBlur = (e: React.FocusEvent<HTMLInputElement>, id: number) => {
-        if (checkInputValidation(e.currentTarget)) {
-            saveEditResult(id);
-        }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange(e)
+    };
+    const handlePressEnter = () => {
+        saveEditResult(todoId);
     };
     return (
-        <input
+        <Input
             type={"text"}
             value={value}
-            required
-            onKeyUp={(e) => handleEditKeyUp(e, todoId)}
-            onChange={onChange}
+            onPressEnter={handlePressEnter}
+            onChange={handleChange}
+            validation={[{type: "required", message: "Todo can not be empty"}]}
+            validateOnBlur
             autoFocus
-            onBlur={(e) => handleEditBlur(e, todoId)}
+            onBlur={handleBlur}
         />
     );
 }

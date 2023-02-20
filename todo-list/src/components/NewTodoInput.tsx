@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {createTodo} from "../api/todoList";
-import {checkInputValidation, clearValidation} from "../util";
+import Input from "./Input";
 
 interface Props {
     refreshPage: () => void
@@ -8,25 +8,22 @@ interface Props {
 
 function NewTodoInput({refreshPage}: Props) {
     const [newTodo, setNewTodo] = useState('');
-    const handleOnKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        clearValidation(e.currentTarget);
-        if (e.key === 'Enter' && checkInputValidation(e.currentTarget)) {
-            createTodo(newTodo)
-            setNewTodo('');
-            refreshPage()
-        }
-    };
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewTodo(e.target.value)
     };
+    const handlePressEnter = () => {
+        createTodo(newTodo)
+        setNewTodo('');
+        refreshPage()
+    };
     return (
-        <input
+        <Input
             type={"text"}
             value={newTodo}
             placeholder={'Enter new Todo item'}
-            required
             onChange={handleOnChange}
-            onKeyUp={handleOnKeyUp}
+            onPressEnter={handlePressEnter}
+            validation={[{type: "required", message: "Todo can not be empty"}]}
         />
     );
 }
