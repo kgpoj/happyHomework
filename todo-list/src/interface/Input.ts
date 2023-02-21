@@ -12,3 +12,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     validation?: Validation[];
     validateOnBlur?: boolean
 }
+
+export interface InputRef {
+    reportValidity: () => boolean;
+}

@@ -1,5 +1,5 @@
-import React from 'react';
-import {InputProps} from "../interface/Input";
+import React, {forwardRef, useImperativeHandle, useRef} from 'react';
+import {InputProps, InputRef} from "../interface/Input";
 import {checkInputValidation, clearValidation} from "../util";
 import {Validation} from "../interface/Validation";
 
@@ -12,8 +12,9 @@ function getValidationProps(validation: Validation[] | undefined) {
     return validationProps;
 }
 
-function Input(props: InputProps) {
+const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     const {onPressEnter, onKeyDown, onBlur, onChange, validation, validateOnBlur = false, ...rest} = props
+    const inputRef = useRef(null);
     const validationProps = getValidationProps(validation);
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (onPressEnter && e.key === 'Enter' && checkInputValidation(e.currentTarget, validation)) {
@@ -30,9 +31,18 @@ function Input(props: InputProps) {
         clearValidation(e.currentTarget)
         onChange?.(e)
     };
+
+    useImperativeHandle(ref, () => ({
+        reportValidity() {
+            if (inputRef.current) {
+                return checkInputValidation(inputRef.current, validation)
+            }
+            return false
+        }
+    }));
     return (
-        <input onKeyDown={handleKeyDown} onBlur={handleBlur} onChange={handleChange} {...validationProps} {...rest}/>
+        <input ref={inputRef} onKeyDown={handleKeyDown} onBlur={handleBlur} onChange={handleChange} {...validationProps} {...rest}/>
     );
-}
+})
 
 export default Input;

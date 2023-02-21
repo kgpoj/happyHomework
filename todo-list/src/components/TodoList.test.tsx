@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen, waitFor} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import TodoList from "./TodoList";
 import mockTodoData from "../constants/mockTodoData";
 import userEvent from "@testing-library/user-event";
@@ -42,6 +42,14 @@ describe('TodoList', () => {
         userEvent.click(input)
         userEvent.keyboard('new todo[Enter]')
         expect(screen.getByText(newTodo)).toBeInTheDocument()
+
+        const addButton = screen.getByRole('button', {
+            name: /add/i
+        })
+        userEvent.click(input)
+        userEvent.keyboard('another new todo')
+        userEvent.click(addButton)
+        expect(screen.getByText('another new todo')).toBeInTheDocument()
     });
 
     it('should change todo by double click', function () {

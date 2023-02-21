@@ -14,6 +14,7 @@ function initState(dataSource: TodoItem[]): { [index: number]: boolean } {
 }
 
 const StyledWrapper = styled.div`
+  padding: 5px;
   width: 500px;
   margin: 10px auto;
   border: 1px solid rgba(5, 5, 5, 0.06);
@@ -23,7 +24,7 @@ const StyledWrapper = styled.div`
 const Header = styled.h3`
   border-bottom: 3px solid #f5f5f5;
   margin: 0;
-  padding: 12px 5px;
+  padding: 12px 0;
   display: flex;
   justify-content: space-between;
 `
@@ -35,7 +36,7 @@ const List = styled.ul`
 `
 const ListItem = styled.li`
   height: 50px;
-  padding: 0 5px;
+  padding: 0 0;
   border-bottom: 2px solid #f5f5f5;
   display: flex;
   align-items: center;
@@ -78,7 +79,8 @@ function TodoList() {
 
     return (
         <StyledWrapper>
-            <Header>{"What's next?"}<NewTodoInput refreshPage={refreshPage}/></Header>
+            <NewTodoInput refreshPage={refreshPage}/>
+            <Header>{"What's next?"}</Header>
             <List>
                 {filtered(dataSource).map(({data, status, id},) =>
                     <ListItem key={id}>
