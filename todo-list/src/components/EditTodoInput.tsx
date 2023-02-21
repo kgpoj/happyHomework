@@ -1,6 +1,7 @@
 import React from 'react';
 import {updateTodo} from "../api/todoList";
 import Input from "./Input";
+import styled from "styled-components";
 
 interface Props {
     refreshPage: () => void,
@@ -8,6 +9,20 @@ interface Props {
     value: string,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
+
+const StyledWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: end;
+
+  & {
+    input {
+      width: 100%;
+      font-size: 20px;
+    }
+  }
+`
 
 function EditTodoInput({refreshPage, todoId, value, onChange}: Props) {
     function saveEditResult(id: number) {
@@ -25,16 +40,18 @@ function EditTodoInput({refreshPage, todoId, value, onChange}: Props) {
         saveEditResult(todoId);
     };
     return (
-        <Input
-            type={"text"}
-            value={value}
-            onPressEnter={handlePressEnter}
-            onChange={handleChange}
-            validation={[{type: "required", message: "Todo can not be empty"}]}
-            validateOnBlur
-            autoFocus
-            onBlur={handleBlur}
-        />
+        <StyledWrapper>
+            <Input
+                type={"text"}
+                value={value}
+                onPressEnter={handlePressEnter}
+                onChange={handleChange}
+                validation={[{type: "required", message: "Todo can not be empty"}]}
+                validateOnBlur
+                autoFocus
+                onBlur={handleBlur}
+            />
+        </StyledWrapper>
     );
 }
 

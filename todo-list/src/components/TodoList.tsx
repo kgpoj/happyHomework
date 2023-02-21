@@ -20,6 +20,32 @@ const StyledWrapper = styled.div`
   box-shadow: 0 3px 6px 0 rgb(0 0 0 / 12%);
 `;
 
+const Header = styled.h3`
+  border-bottom: 3px solid #f5f5f5;
+  margin: 0;
+  padding: 12px 5px;
+  display: flex;
+  justify-content: space-between;
+`
+
+const List = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`
+const ListItem = styled.li`
+  height: 50px;
+  padding: 0 5px;
+  border-bottom: 2px solid #f5f5f5;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+
+  &:hover {
+    box-shadow: 0 3px 6px 0 rgb(0 0 0 / 12%);
+  }
+`
+
 function TodoList() {
     const [dataSource, setDataSource] = useState<TodoItem[]>(mockTodoData);
     const [refresh, setRefresh] = useState(0);
@@ -52,10 +78,10 @@ function TodoList() {
 
     return (
         <StyledWrapper>
-            <h3>{"What's next?"}</h3>
-            <ul>
+            <Header>{"What's next?"}<NewTodoInput refreshPage={refreshPage}/></Header>
+            <List>
                 {filtered(dataSource).map(({data, status, id},) =>
-                    <li key={id}>
+                    <ListItem key={id}>
                         <TodoCheckbox refreshPage={refreshPage} checked={status === 'completed'} todoId={id}/>
                         {onEditing[id]
                             ?
@@ -74,10 +100,9 @@ function TodoList() {
                                 refreshPage={refreshPage}
                             />
                         }
-                    </li>
+                    </ListItem>
                 )}
-            </ul>
-            <NewTodoInput refreshPage={refreshPage}/>
+            </List>
             <BottomBar todoNum={dataSource.length} onFilter={setFilterOption} refreshPage={refreshPage}/>
         </StyledWrapper>
     );
