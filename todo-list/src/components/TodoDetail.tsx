@@ -31,6 +31,8 @@ const StyledWrapper = styled.span`
     cursor: pointer;
     background: url(${deleteImg});
     border: none;
+    border-radius: 50%;
+    transition: all .2s cubic-bezier(.645, .045, .355, 1);
 
     &:hover {
       box-shadow: 0 3px 6px 0 rgb(0 0 0 / 12%);

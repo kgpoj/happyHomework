@@ -41,6 +41,7 @@ const ListItem = styled.li`
   display: flex;
   align-items: center;
   font-size: 20px;
+  transition: all .2s cubic-bezier(.645, .045, .355, 1);
 
   &:hover {
     box-shadow: 0 3px 6px 0 rgb(0 0 0 / 12%);
