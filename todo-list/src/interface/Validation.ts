@@ -2,10 +2,11 @@ import {LiteralUnion} from "../util";
 
 export interface Validation {
     type: LiteralUnion<
-        | 'maxlength'
-        | 'minlength'
+        | 'maxLength'
+        | 'minLength'
         | 'required',
         string
     >;
+    value: number | boolean
     message: string
 }

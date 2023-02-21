@@ -24,6 +24,18 @@ const StyledWrapper = styled.div`
     }
   }
 `
+const validation = [
+    {
+        type: "required",
+        value: true,
+        message: "Todo can not be empty"
+    },
+    {
+        type: "maxLength",
+        value: 30,
+        message: "The max length is 30"
+    }
+];
 
 const EditTodoInput = ({ refreshPage, todoId, value, onChange, exitEdit }: Props) => {
     const saveEditResult = () => {
@@ -39,13 +51,13 @@ const EditTodoInput = ({ refreshPage, todoId, value, onChange, exitEdit }: Props
                 value={value}
                 onPressEnter={saveEditResult}
                 onChange={onChange}
-                validation={[{type: "required", message: "Todo can not be empty"}]}
+                validation={validation}
                 validateOnBlur
                 autoFocus
                 onBlur={saveEditResult}
             />
         </StyledWrapper>
     );
-};
+}
 
 export default EditTodoInput;

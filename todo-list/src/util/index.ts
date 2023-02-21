@@ -10,6 +10,9 @@ export const checkInputValidation = (inputElement: HTMLInputElement, validation:
     if (validityState.valueMissing) {
         inputElement.setCustomValidity(validateMessagesMap['required']);
     }
+    if (validityState.tooLong) {
+        inputElement.setCustomValidity(validateMessagesMap['maxLength'])
+    }
     inputElement.reportValidity()
     return false
 };
