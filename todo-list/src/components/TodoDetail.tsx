@@ -5,10 +5,10 @@ import deleteImg from '../delete.png'
 
 interface TodoDetailProps {
     todoId: number,
-    onDoubleClick: (id: number, data: string) => void,
-    data: string,
+    onDoubleClick: (data: string) => void,
+    todoData: string,
     refreshPage: () => void,
-    completed: boolean
+    completed: boolean,
 }
 
 const StyledWrapper = styled.span`
@@ -41,14 +41,14 @@ const StyledWrapper = styled.span`
   }
 `
 
-const TodoDetail = ({todoId, onDoubleClick, data, refreshPage, completed}: TodoDetailProps) => {
+const TodoDetail = ({todoId, onDoubleClick, todoData, refreshPage, completed}: TodoDetailProps) => {
     const [onHovering, setOnHovering] = useState(false);
     const handleDelete = () => {
         deleteTodo(todoId)
         refreshPage();
     };
     const handleDoubleClick = () => {
-        onDoubleClick(todoId, data)
+        onDoubleClick(todoData)
     }
     const showDeleteBtn = () => setOnHovering(true);
     const hiddenDeleteBtn = () => setOnHovering(false);
@@ -58,7 +58,7 @@ const TodoDetail = ({todoId, onDoubleClick, data, refreshPage, completed}: TodoD
             onMouseLeave={hiddenDeleteBtn}
         >
             <span onDoubleClick={handleDoubleClick}>
-                {completed ? <del>{data}</del> : data}
+                {completed ? <del>{todoData}</del> : todoData}
             </span>
             {onHovering && <button onClick={handleDelete}>x</button>}
         </StyledWrapper>

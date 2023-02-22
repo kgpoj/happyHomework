@@ -7,7 +7,8 @@ interface Props {
     refreshPage: () => void,
     todoId: number,
     value: string,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    exitEdit: () => void
 }
 
 const StyledWrapper = styled.div`
@@ -24,9 +25,10 @@ const StyledWrapper = styled.div`
   }
 `
 
-const EditTodoInput = ({refreshPage, todoId, value, onChange}: Props) => {
+const EditTodoInput = ({ refreshPage, todoId, value, onChange, exitEdit }: Props) => {
     const saveEditResult = () => {
         updateTodo(todoId, {data: value})
+        exitEdit()
         refreshPage();
     };
 

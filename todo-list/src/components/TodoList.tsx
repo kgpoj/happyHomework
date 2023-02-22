@@ -3,16 +3,9 @@ import {TodoItem} from "../interface/TodoItem";
 import mockTodoData from "../constants/mockTodoData";
 import {readTodo} from "../api/todoList";
 import NewTodoInput from "./NewTodoInput";
-import EditTodoInput from "./EditTodoInput";
-import TodoCheckbox from "./TodoCheckbox";
-import TodoDetail from "./TodoDetail";
 import styled from "styled-components";
 import BottomBar from "./BottomBar";
-
-const initState = (dataSource: TodoItem[]): { [index: number]: boolean } => dataSource.reduce((total, cur) => ({
-    ...total,
-    [cur.id]: false
-}), {});
+import ListItem from "./ListItem";
 
 const StyledWrapper = styled.div`
   padding: 5px;
@@ -35,40 +28,18 @@ const List = styled.ul`
   padding: 0;
   margin: 0;
 `
-const ListItem = styled.li`
-  height: 50px;
-  padding: 0 0;
-  border-bottom: 2px solid #f5f5f5;
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-  transition: all .2s cubic-bezier(.645, .045, .355, 1);
-
-  &:hover {
-    box-shadow: 0 3px 6px 0 rgb(0 0 0 / 12%);
-  }
-`
 
 const TodoList = () => {
     const [dataSource, setDataSource] = useState<TodoItem[]>(mockTodoData);
     const [refresh, setRefresh] = useState(0);
-    const [onEditing, setOnEditing] = useState(initState(dataSource));
-    const [editingTodo, setEditingTodo] = useState('');
     const [filterOption, setFilterOption] = useState('All');
     useEffect(() => {
         setDataSource(readTodo())
     }, [refresh]);
 
     const refreshPage = () => {
-        setOnEditing(initState(dataSource))
         setRefresh(refresh + 1)
     };
-
-    const triggerEdit = (id: number, data: string) => {
-        setOnEditing({...initState(dataSource), [id]: true})
-        setEditingTodo(data)
-    };
-    const handleEditingTodoChange = (e: React.ChangeEvent<HTMLInputElement>) => setEditingTodo(e.target.value);
 
     const filtered = (dataSource: TodoItem[]): TodoItem[] => {
         if (filterOption === 'All') {
@@ -87,26 +58,7 @@ const TodoList = () => {
             <Header>{"What's next?"}</Header>
             <List>
                 {filtered(dataSource).map(({data, status, id},) =>
-                    <ListItem key={id}>
-                        <TodoCheckbox refreshPage={refreshPage} checked={status === 'completed'} todoId={id}/>
-                        {onEditing[id]
-                            ?
-                            <EditTodoInput
-                                value={editingTodo}
-                                onChange={handleEditingTodoChange}
-                                todoId={id}
-                                refreshPage={refreshPage}
-                            />
-                            :
-                            <TodoDetail
-                                completed={status === 'completed'}
-                                todoId={id}
-                                onDoubleClick={triggerEdit}
-                                data={data}
-                                refreshPage={refreshPage}
-                            />
-                        }
-                    </ListItem>
+                    <ListItem key={id} todoId={id} todoData={data} todoStatus={status} refreshPage={refreshPage}/>
                 )}
             </List>
             <BottomBar todoNum={dataSource.length} onFilter={setFilterOption} refreshPage={refreshPage}/>
