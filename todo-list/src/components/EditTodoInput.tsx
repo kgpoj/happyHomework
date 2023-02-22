@@ -24,11 +24,11 @@ const StyledWrapper = styled.div`
   }
 `
 
-function EditTodoInput({refreshPage, todoId, value, onChange}: Props) {
-    function saveEditResult(id: number) {
+const EditTodoInput = ({refreshPage, todoId, value, onChange}: Props) => {
+    const saveEditResult = (id: number) => {
         updateTodo(id, {data: value})
         refreshPage();
-    }
+    };
 
     const handleBlur = () => {
         saveEditResult(todoId);
@@ -53,6 +53,6 @@ function EditTodoInput({refreshPage, todoId, value, onChange}: Props) {
             />
         </StyledWrapper>
     );
-}
+};
 
 export default EditTodoInput;

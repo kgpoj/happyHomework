@@ -8,7 +8,7 @@ interface Props {
     checked: boolean
 }
 
-function TodoCheckbox({refreshPage, todoId, checked}: Props) {
+const TodoCheckbox = ({refreshPage, todoId, checked}: Props) => {
     const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
         updateTodo(id, {status: e.target.checked ? 'completed' : 'active'})
         refreshPage();
@@ -20,6 +20,6 @@ function TodoCheckbox({refreshPage, todoId, checked}: Props) {
             onChange={(e) => handleCheckedChange(e, todoId)}
         />
     );
-}
+};
 
 export default TodoCheckbox;

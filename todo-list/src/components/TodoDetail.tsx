@@ -41,7 +41,7 @@ const StyledWrapper = styled.span`
   }
 `
 
-function TodoDetail({todoId, onDoubleClick, data, refreshPage, completed}: TodoDetailProps) {
+const TodoDetail = ({todoId, onDoubleClick, data, refreshPage, completed}: TodoDetailProps) => {
     const [onHovering, setOnHovering] = useState(false);
     const handleDelete = (id: number) => {
         deleteTodo(id)
@@ -58,6 +58,6 @@ function TodoDetail({todoId, onDoubleClick, data, refreshPage, completed}: TodoD
             {onHovering && <button onClick={() => handleDelete(todoId)}>x</button>}
         </StyledWrapper>
     );
-}
+};
 
 export default TodoDetail;

@@ -1,14 +1,14 @@
 import {TodoItem} from "../interface/TodoItem";
 
-function readAllTodo() {
+const readAllTodo = () => {
     const todoData: TodoItem[] = JSON.parse(sessionStorage.getItem('mockTodoData') as string);
     return todoData;
-}
+};
 
-export function readTodo(): TodoItem[] {
+export const readTodo = (): TodoItem[] => {
     const todoData = readAllTodo();
     return todoData.filter(item => !item.deleted);
-}
+};
 
 export const updateTodo = (id: number, payload: { data?: string, status?: string }) => {
     const data = readAllTodo()

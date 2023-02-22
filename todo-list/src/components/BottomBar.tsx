@@ -28,7 +28,7 @@ interface BottomBarProps {
     refreshPage: () => void
 }
 
-function BottomBar({todoNum, onFilter, refreshPage}: BottomBarProps) {
+const BottomBar = ({todoNum, onFilter, refreshPage}: BottomBarProps) => {
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onFilter(e.target.value)
     };
@@ -50,6 +50,6 @@ function BottomBar({todoNum, onFilter, refreshPage}: BottomBarProps) {
             <OutlinedButton onClick={handleOnClick}>Clear Completed</OutlinedButton>
         </StyledWrapper>
     );
-}
+};
 
 export default BottomBar;

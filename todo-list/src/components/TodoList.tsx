@@ -9,9 +9,10 @@ import TodoDetail from "./TodoDetail";
 import styled from "styled-components";
 import BottomBar from "./BottomBar";
 
-function initState(dataSource: TodoItem[]): { [index: number]: boolean } {
-    return dataSource.reduce((total, cur) => ({...total, [cur.id]: false}), {});
-}
+const initState = (dataSource: TodoItem[]): { [index: number]: boolean } => dataSource.reduce((total, cur) => ({
+    ...total,
+    [cur.id]: false
+}), {});
 
 const StyledWrapper = styled.div`
   padding: 5px;
@@ -48,7 +49,7 @@ const ListItem = styled.li`
   }
 `
 
-function TodoList() {
+const TodoList = () => {
     const [dataSource, setDataSource] = useState<TodoItem[]>(mockTodoData);
     const [refresh, setRefresh] = useState(0);
     const [onEditing, setOnEditing] = useState(initState(dataSource));
@@ -58,17 +59,17 @@ function TodoList() {
         setDataSource(readTodo())
     }, [refresh]);
 
-    function refreshPage() {
+    const refreshPage = () => {
         setOnEditing(initState(dataSource))
         setRefresh(refresh + 1)
-    }
+    };
 
     const handleDetailDoubleClick = (id: number, data: string) => {
         setOnEditing({...initState(dataSource), [id]: true})
         setEditingTodo(data)
     };
 
-    function filtered(dataSource: TodoItem[]): TodoItem[] {
+    const filtered = (dataSource: TodoItem[]): TodoItem[] => {
         if (filterOption === 'All') {
             return dataSource
         } else if (filterOption === 'Active') {
@@ -76,7 +77,7 @@ function TodoList() {
         } else {
             return dataSource.filter(item => item.status === 'completed')
         }
-    }
+    };
 
     return (
         <StyledWrapper>
@@ -109,6 +110,6 @@ function TodoList() {
             <BottomBar todoNum={dataSource.length} onFilter={setFilterOption} refreshPage={refreshPage}/>
         </StyledWrapper>
     );
-}
+};
 
 export default TodoList;
