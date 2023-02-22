@@ -25,31 +25,22 @@ const StyledWrapper = styled.div`
 `
 
 const EditTodoInput = ({refreshPage, todoId, value, onChange}: Props) => {
-    const saveEditResult = (id: number) => {
-        updateTodo(id, {data: value})
+    const saveEditResult = () => {
+        updateTodo(todoId, {data: value})
         refreshPage();
     };
 
-    const handleBlur = () => {
-        saveEditResult(todoId);
-    };
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(e)
-    };
-    const handlePressEnter = () => {
-        saveEditResult(todoId);
-    };
     return (
         <StyledWrapper>
             <Input
                 type={"text"}
                 value={value}
-                onPressEnter={handlePressEnter}
-                onChange={handleChange}
+                onPressEnter={saveEditResult}
+                onChange={onChange}
                 validation={[{type: "required", message: "Todo can not be empty"}]}
                 validateOnBlur
                 autoFocus
-                onBlur={handleBlur}
+                onBlur={saveEditResult}
             />
         </StyledWrapper>
     );

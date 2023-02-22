@@ -64,10 +64,11 @@ const TodoList = () => {
         setRefresh(refresh + 1)
     };
 
-    const handleDetailDoubleClick = (id: number, data: string) => {
+    const triggerEdit = (id: number, data: string) => {
         setOnEditing({...initState(dataSource), [id]: true})
         setEditingTodo(data)
     };
+    const handleEditingTodoChange = (e: React.ChangeEvent<HTMLInputElement>) => setEditingTodo(e.target.value);
 
     const filtered = (dataSource: TodoItem[]): TodoItem[] => {
         if (filterOption === 'All') {
@@ -78,6 +79,7 @@ const TodoList = () => {
             return dataSource.filter(item => item.status === 'completed')
         }
     };
+
 
     return (
         <StyledWrapper>
@@ -91,7 +93,7 @@ const TodoList = () => {
                             ?
                             <EditTodoInput
                                 value={editingTodo}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditingTodo(e.target.value)}
+                                onChange={handleEditingTodoChange}
                                 todoId={id}
                                 refreshPage={refreshPage}
                             />
@@ -99,7 +101,7 @@ const TodoList = () => {
                             <TodoDetail
                                 completed={status === 'completed'}
                                 todoId={id}
-                                onDoubleClick={() => handleDetailDoubleClick(id, data)}
+                                onDoubleClick={triggerEdit}
                                 data={data}
                                 refreshPage={refreshPage}
                             />
