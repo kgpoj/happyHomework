@@ -15,6 +15,8 @@ const StyledWrapper = styled.span`
   display: flex;
   flex: 1;
   cursor: pointer;
+  height: 100%;
+  align-items: center;
 
   span {
     flex: 1;
@@ -56,8 +58,9 @@ const TodoDetail = ({todoId, onDoubleClick, todoData, refreshPage, completed}: T
         <StyledWrapper
             onMouseEnter={showDeleteBtn}
             onMouseLeave={hiddenDeleteBtn}
+            onDoubleClick={handleDoubleClick}
         >
-            <span onDoubleClick={handleDoubleClick}>
+            <span>
                 {completed ? <del>{todoData}</del> : todoData}
             </span>
             {onHovering && <button onClick={handleDelete}>x</button>}
