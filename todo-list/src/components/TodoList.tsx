@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {TodoItem} from "../interface/TodoItem";
 import mockTodoData from "../constants/mockTodoData";
 import {readTodo} from "../api/todoList";
@@ -33,7 +33,7 @@ const TodoList = () => {
     const [dataSource, setDataSource] = useState<TodoItem[]>(mockTodoData);
     const [refresh, setRefresh] = useState(0);
     const [filterOption, setFilterOption] = useState('All');
-    useEffect(() => {
+    useLayoutEffect(() => {
         setDataSource(readTodo())
     }, [refresh]);
 
