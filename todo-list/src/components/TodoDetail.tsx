@@ -5,16 +5,18 @@ import deleteImg from '../delete.png'
 
 interface TodoDetailProps {
     todoId: number,
-    onDoubleClick: () => void,
-    data: string,
+    onDoubleClick: (data: string) => void,
+    todoData: string,
     refreshPage: () => void,
-    completed: boolean
+    completed: boolean,
 }
 
 const StyledWrapper = styled.span`
   display: flex;
   flex: 1;
   cursor: pointer;
+  height: 100%;
+  align-items: center;
 
   span {
     flex: 1;
@@ -41,23 +43,29 @@ const StyledWrapper = styled.span`
   }
 `
 
-function TodoDetail({todoId, onDoubleClick, data, refreshPage, completed}: TodoDetailProps) {
+const TodoDetail = ({todoId, onDoubleClick, todoData, refreshPage, completed}: TodoDetailProps) => {
     const [onHovering, setOnHovering] = useState(false);
-    const handleDelete = (id: number) => {
-        deleteTodo(id)
+    const handleDelete = () => {
+        deleteTodo(todoId)
         refreshPage();
     };
+    const handleDoubleClick = () => {
+        onDoubleClick(todoData)
+    }
+    const showDeleteBtn = () => setOnHovering(true);
+    const hiddenDeleteBtn = () => setOnHovering(false);
     return (
         <StyledWrapper
-            onMouseEnter={() => setOnHovering(true)}
-            onMouseLeave={() => setOnHovering(false)}
+            onMouseEnter={showDeleteBtn}
+            onMouseLeave={hiddenDeleteBtn}
+            onDoubleClick={handleDoubleClick}
         >
-            <span onDoubleClick={onDoubleClick}>
-                {completed ? <del>{data}</del> : data}
+            <span>
+                {completed ? <del>{todoData}</del> : todoData}
             </span>
-            {onHovering && <button onClick={() => handleDelete(todoId)}>x</button>}
+            {onHovering && <button onClick={handleDelete}>x</button>}
         </StyledWrapper>
     );
-}
+};
 
 export default TodoDetail;

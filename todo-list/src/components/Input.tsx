@@ -4,13 +4,13 @@ import {checkInputValidation, clearValidation} from "../util";
 import {Validation} from "../interface/Validation";
 
 
-function getValidationProps(validation: Validation[] | undefined) {
+const getValidationProps = (validation: Validation[] | undefined) => {
     const validationProps: { [index: string]: boolean } = {}
     if (validation) {
         validation.forEach(item => validationProps[item.type] = true)
     }
     return validationProps;
-}
+};
 
 const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     const {onPressEnter, onKeyDown, onBlur, onChange, validation, validateOnBlur = false, ...rest} = props

@@ -15,6 +15,7 @@ export const Button = styled.button`
   }
 `
 export const Checkbox = styled.input.attrs(props => ({
+    type: 'checkbox',
     checked: props.checked || false
 }))`
   position: relative;

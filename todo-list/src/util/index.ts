@@ -1,6 +1,6 @@
 import {Validation} from "../interface/Validation";
 
-export function checkInputValidation(inputElement: HTMLInputElement, validation: Validation[] | undefined): boolean {
+export const checkInputValidation = (inputElement: HTMLInputElement, validation: Validation[] | undefined): boolean => {
     if (!validation || inputElement.checkValidity()) {
         return true
     }
@@ -12,10 +12,10 @@ export function checkInputValidation(inputElement: HTMLInputElement, validation:
     }
     inputElement.reportValidity()
     return false
-}
+};
 
-export function clearValidation(inputElement: HTMLInputElement) {
+export const clearValidation = (inputElement: HTMLInputElement) => {
     inputElement.setCustomValidity('')
-}
+};
 
 export type LiteralUnion<T extends U, U> = T | (U & {});

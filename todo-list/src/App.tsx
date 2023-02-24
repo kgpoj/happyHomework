@@ -6,13 +6,6 @@ if (!sessionStorage.getItem('mockTodoData')) {
     sessionStorage.setItem('mockTodoData', JSON.stringify(mockTodoData))
 }
 
-function App() {
-
-    return (
-        <div>
-            <TodoList />
-        </div>
-    );
-}
+const App = () => <TodoList/>;
 
 export default App;

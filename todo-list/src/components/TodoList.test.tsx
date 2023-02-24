@@ -33,7 +33,7 @@ describe('TodoList', () => {
     });
 
     // a proper component unit test
-    it('should add new todo correctly', function () {
+    it('should add new todo correctly', () => {
         render(<TodoList/>)
         const newTodo = 'new todo';
         expect(screen.queryByText(newTodo)).not.toBeInTheDocument()
@@ -52,7 +52,7 @@ describe('TodoList', () => {
         expect(screen.getByText('another new todo')).toBeInTheDocument()
     });
 
-    it('should change todo by double click', function () {
+    it('should change todo by double click', () => {
         render(<TodoList/>)
         const existTodo = 'active todo item'
         const todo = screen.getByText(existTodo);
@@ -67,7 +67,7 @@ describe('TodoList', () => {
         expect(todo).not.toBeInTheDocument()
     });
 
-    it('should delete todo', function () {
+    it('should delete todo', () => {
         render(<TodoList/>)
         const existTodo = 'active todo item'
         const todo = screen.getByText(existTodo);
@@ -87,7 +87,7 @@ describe('TodoList', () => {
         expect(todo).not.toBeInTheDocument()
     });
 
-    it('should show bottom bar with the correct number of left todos', function () {
+    it('should show bottom bar with the correct number of left todos', () => {
         render(<TodoList/>)
         expect(screen.getByText('2 items left')).toBeInTheDocument()
 
@@ -98,7 +98,7 @@ describe('TodoList', () => {
         expect(screen.getByText('3 items left')).toBeInTheDocument()
     });
 
-    it('should filter correctly', function () {
+    it('should filter correctly', () => {
         render(<TodoList/>)
         const allButton = screen.getByRole('radio', {
             name: /all/i
@@ -128,7 +128,7 @@ describe('TodoList', () => {
         expect(screen.getByText('completed todo item')).toBeInTheDocument()
     });
 
-    it('should clear all completed', function () {
+    it('should clear all completed', () => {
         render(<TodoList/>)
         const clearCompletedButton = screen.getByRole('button', {
             name: /clear completed/i
@@ -141,7 +141,7 @@ describe('TodoList', () => {
         expect(screen.queryByText('completed todo item')).not.toBeInTheDocument()
     });
 
-    it('should check new todo validity', function () {
+    it('should check new todo validity', () => {
         render(<TodoList/>)
         const input = screen.getByRole('textbox')
         expect(input).toBeInvalid()

@@ -36,7 +36,7 @@ const StyledWrapper = styled.div`
   }
 `
 
-function NewTodoInput({refreshPage}: Props) {
+const NewTodoInput = ({refreshPage}: Props) => {
     const [newTodo, setNewTodo] = useState('');
     const inputRef = useRef<InputRef>(null);
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +67,6 @@ function NewTodoInput({refreshPage}: Props) {
             <button onClick={handleClick}>Add</button>
         </StyledWrapper>
     );
-}
+};
 
 export default NewTodoInput;

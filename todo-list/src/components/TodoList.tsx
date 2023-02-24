@@ -1,17 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {TodoItem} from "../interface/TodoItem";
 import mockTodoData from "../constants/mockTodoData";
 import {readTodo} from "../api/todoList";
 import NewTodoInput from "./NewTodoInput";
-import EditTodoInput from "./EditTodoInput";
-import TodoCheckbox from "./TodoCheckbox";
-import TodoDetail from "./TodoDetail";
 import styled from "styled-components";
 import BottomBar from "./BottomBar";
-
-function initState(dataSource: TodoItem[]): { [index: number]: boolean } {
-    return dataSource.reduce((total, cur) => ({...total, [cur.id]: false}), {});
-}
+import ListItem from "./ListItem";
 
 const StyledWrapper = styled.div`
   padding: 5px;
@@ -34,41 +28,20 @@ const List = styled.ul`
   padding: 0;
   margin: 0;
 `
-const ListItem = styled.li`
-  height: 50px;
-  padding: 0 0;
-  border-bottom: 2px solid #f5f5f5;
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-  transition: all .2s cubic-bezier(.645, .045, .355, 1);
 
-  &:hover {
-    box-shadow: 0 3px 6px 0 rgb(0 0 0 / 12%);
-  }
-`
-
-function TodoList() {
+const TodoList = () => {
     const [dataSource, setDataSource] = useState<TodoItem[]>(mockTodoData);
     const [refresh, setRefresh] = useState(0);
-    const [onEditing, setOnEditing] = useState(initState(dataSource));
-    const [editingTodo, setEditingTodo] = useState('');
     const [filterOption, setFilterOption] = useState('All');
-    useEffect(() => {
+    useLayoutEffect(() => {
         setDataSource(readTodo())
     }, [refresh]);
 
-    function refreshPage() {
-        setOnEditing(initState(dataSource))
+    const refreshPage = () => {
         setRefresh(refresh + 1)
-    }
-
-    const handleDetailDoubleClick = (id: number, data: string) => {
-        setOnEditing({...initState(dataSource), [id]: true})
-        setEditingTodo(data)
     };
 
-    function filtered(dataSource: TodoItem[]): TodoItem[] {
+    const filtered = (dataSource: TodoItem[]): TodoItem[] => {
         if (filterOption === 'All') {
             return dataSource
         } else if (filterOption === 'Active') {
@@ -76,7 +49,8 @@ function TodoList() {
         } else {
             return dataSource.filter(item => item.status === 'completed')
         }
-    }
+    };
+
 
     return (
         <StyledWrapper>
@@ -84,31 +58,12 @@ function TodoList() {
             <Header>{"What's next?"}</Header>
             <List>
                 {filtered(dataSource).map(({data, status, id},) =>
-                    <ListItem key={id}>
-                        <TodoCheckbox refreshPage={refreshPage} checked={status === 'completed'} todoId={id}/>
-                        {onEditing[id]
-                            ?
-                            <EditTodoInput
-                                value={editingTodo}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditingTodo(e.target.value)}
-                                todoId={id}
-                                refreshPage={refreshPage}
-                            />
-                            :
-                            <TodoDetail
-                                completed={status === 'completed'}
-                                todoId={id}
-                                onDoubleClick={() => handleDetailDoubleClick(id, data)}
-                                data={data}
-                                refreshPage={refreshPage}
-                            />
-                        }
-                    </ListItem>
+                    <ListItem key={id} todoId={id} todoData={data} todoStatus={status} refreshPage={refreshPage}/>
                 )}
             </List>
             <BottomBar todoNum={dataSource.length} onFilter={setFilterOption} refreshPage={refreshPage}/>
         </StyledWrapper>
     );
-}
+};
 
 export default TodoList;
