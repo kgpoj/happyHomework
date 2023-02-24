@@ -14,12 +14,12 @@ const StyledWrapper = styled.div`
   justify-content: space-between;
   height: 30px;
   align-items: center;
-  
+
   input {
     width: 80%;
     height: 100%;
   }
-  
+
   button {
     color: white;
     height: 100%;
@@ -28,13 +28,26 @@ const StyledWrapper = styled.div`
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: all .2s cubic-bezier(.645,.045,.355,1);
+    transition: all .2s cubic-bezier(.645, .045, .355, 1);
   }
-  
+
   button:hover {
     background-color: #4096ff
   }
 `
+
+const validation = [
+    {
+        type: "required",
+        value: true,
+        message: "Todo can not be empty"
+    },
+    {
+        type: "maxLength",
+        value: 30,
+        message: "The max length is 30"
+    }
+];
 
 const NewTodoInput = ({refreshPage}: Props) => {
     const [newTodo, setNewTodo] = useState('');
@@ -61,12 +74,12 @@ const NewTodoInput = ({refreshPage}: Props) => {
                 placeholder={'Enter new Todo item'}
                 onChange={handleOnChange}
                 onPressEnter={saveTodo}
-                validation={[{type: "required", message: "Todo can not be empty"}]}
+                validation={validation}
                 ref={inputRef}
             />
             <button onClick={handleClick}>Add</button>
         </StyledWrapper>
     );
-};
+}
 
 export default NewTodoInput;

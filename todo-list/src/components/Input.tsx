@@ -5,12 +5,12 @@ import {Validation} from "../interface/Validation";
 
 
 const getValidationProps = (validation: Validation[] | undefined) => {
-    const validationProps: { [index: string]: boolean } = {}
+    const validationProps: { [index: string]: number | boolean} = {}
     if (validation) {
-        validation.forEach(item => validationProps[item.type] = true)
+        validation.forEach(item => validationProps[item.type] = item.value)
     }
     return validationProps;
-};
+}
 
 const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     const {onPressEnter, onKeyDown, onBlur, onChange, validation, validateOnBlur = false, ...rest} = props
